@@ -67,10 +67,10 @@ fn AuthPage(page: Page) -> impl IntoView {
     let is_signin = page == Page::Signin;
     let title = if is_signin { "Welcome back" } else { "Create your account" };
     let submit_label = if is_signin { "Sign in" } else { "Sign up" };
-    let switch_html = if is_signin {
-        r#"<p class="auth-switch">New here? <a href="/signup">Create an account</a></p>"#.to_string()
+    let switch_view = if is_signin {
+        view! { <p class="auth-switch">"New here? "<a href="/signup">"Create an account"</a></p> }.into_any()
     } else {
-        r#"<p class="auth-switch">Already have an account? <a href="/signin">Sign in</a></p>"#.to_string()
+        view! { <p class="auth-switch">"Already have an account? "<a href="/signin">"Sign in"</a></p> }.into_any()
     };
     // Optional fields (name + email) only on signup; rendered as real HTML.
     let name_field = if is_signin {
@@ -153,7 +153,7 @@ fn AuthPage(page: Page) -> impl IntoView {
                             <label class="field"><span>"Password"</span><input id="password" name="password" type="password" autocomplete={if is_signin { "current-password" } else { "new-password" }} required=true /></label>
                             <button id="auth-submit" class="btn-primary" type="submit">{submit_label}</button>
                         </form>
-                        {switch_html}
+                        {switch_view}
                     </div>
                 </main>
                 <script>{js}</script>
