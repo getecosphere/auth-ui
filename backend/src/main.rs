@@ -1,9 +1,27 @@
-use axum::{routing::get, Router};
+use axum::{
+    body::Body,
+    http::{header::CONTENT_TYPE, HeaderValue, StatusCode},
+    response::Response,
+    routing::get,
+    Router,
+};
 use leptos::prelude::*;
 use leptos::{component, view, IntoView};
 use leptos_axum::render_app_to_stream;
 use tokio::net::TcpListener;
-use tower_http::services::ServeDir;
+
+// Embedded stylesheet — the auth-ui LXS is a self-contained static binary
+// (no separate static/ dir to ship, no runtime asset files). The CSS uses
+// --auth-* design tokens that an estate overrides in its own stylesheet.
+const AUTH_UI_CSS: &str = include_str!("../static/auth-ui.css");
+
+async fn serve_css() -> Response {
+    Response::builder()
+        .status(StatusCode::OK)
+        .header(CONTENT_TYPE, HeaderValue::from_static("text/css; charset=utf-8"))
+        .body(Body::from(AUTH_UI_CSS))
+        .unwrap()
+}
 
 // auth-ui — the signin/signup LXS frontend for the auth domain.
 //
@@ -143,7 +161,7 @@ async fn main() {
     let app = Router::new()
         .route("/signin", get(render_app_to_stream(|| view! { <AuthPage page=Page::Signin /> })))
         .route("/signup", get(render_app_to_stream(|| view! { <AuthPage page=Page::Signup /> })))
-        .nest_service("/static", ServeDir::new("static"));
+        .route("/static/auth-ui.css", get(serve_css));
     let listener = TcpListener::bind(format!("0.0.0.0:{port}"))
         .await
         .expect("auth-ui could not bind its port");
