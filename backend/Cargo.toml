@@ -1,0 +1,21 @@
+[package]
+name = "auth-ui-service"
+version = "0.1.0"
+edition = "2021"
+
+# Standalone package.
+[workspace]
+
+[dependencies]
+axum = "0.7"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net"] }
+tower-http = { version = "0.5", features = ["fs", "trace"] }
+leptos = { version = "0.7.8", features = ["ssr"] }
+leptos_axum = "0.7.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true

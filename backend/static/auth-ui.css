@@ -1,0 +1,46 @@
+/* auth-ui LXS — white-label signin/signup.
+ * Default theme mirrors the getecosphere palette. An estate inherits its own
+ * brand by overriding the --auth-* design tokens in its own stylesheet (or an
+ * <style> block) — no code changes, no rebuild.
+ */
+:root {
+  --auth-font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --auth-font-mono: "DM Mono", ui-monospace, monospace;
+  --auth-bg: #f7f6f2;
+  --auth-surface: #ffffff;
+  --auth-ink: #17141d;
+  --auth-muted: #665f6e;
+  --auth-border: #ded9e1;
+  --auth-border-strong: #bdb3c3;
+  --auth-brand: #5b3fd6;
+  --auth-brand-hover: #482bbd;
+  --auth-brand-soft: #e9e3ff;
+  --auth-success: #198653;
+  --auth-error: #b4233b;
+  --auth-radius-md: 10px;
+  --auth-radius-sm: 6px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--auth-bg);
+  color: var(--auth-ink);
+  font: 400 16px/1.6 var(--auth-font-display);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--auth-brand); text-decoration: none; }
+a:hover { color: var(--auth-brand-hover); }
+.auth-shell { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.auth-card { width: min(440px, 100%); padding: 40px 36px; border: 1px solid var(--auth-border); border-radius: 14px; background: var(--auth-surface); box-shadow: 0 14px 34px rgba(23,20,29,.06); }
+.eyebrow { margin: 0 0 10px; color: var(--auth-brand); font: 500 12px/1.4 var(--auth-font-mono); letter-spacing: .1em; }
+.auth-card h1 { margin: 0 0 8px; font-size: 32px; letter-spacing: -.04em; line-height: 1.1; }
+.auth-sub { margin: 0 0 24px; color: var(--auth-muted); font-size: 15px; }
+.field { display: block; margin: 0 0 16px; }
+.field span { display: block; margin-bottom: 6px; color: var(--auth-muted); font-size: 14px; }
+.field input { width: 100%; padding: 11px 12px; border: 1px solid var(--auth-border-strong); border-radius: var(--auth-radius-sm); background: #fff; color: var(--auth-ink); font: inherit; }
+.field input:focus-visible { outline: 3px solid var(--auth-brand); outline-offset: 2px; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; margin-top: 6px; border: 0; border-radius: var(--auth-radius-md); background: var(--auth-brand); color: #fff; font: 700 16px var(--auth-font-display); cursor: pointer; transition: background 160ms; }
+.btn-primary:hover { background: var(--auth-brand-hover); }
+.btn-primary:disabled { opacity: .6; cursor: wait; }
+.auth-error { padding: 10px 12px; border-radius: var(--auth-radius-sm); background: #fdecea; color: var(--auth-error); font-size: 14px; }
+.auth-switch { margin: 20px 0 0; color: var(--auth-muted); text-align: center; font-size: 14px; }
