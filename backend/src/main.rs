@@ -72,6 +72,17 @@ fn AuthPage(page: Page) -> impl IntoView {
     } else {
         r#"<p class="auth-switch">Already have an account? <a href="/signin">Sign in</a></p>"#.to_string()
     };
+    // Optional fields (name + email) only on signup; rendered as real HTML.
+    let name_field = if is_signin {
+        None
+    } else {
+        Some(view! { <label class="field"><span>"Name"</span><input id="name" name="name" type="text" autocomplete="name" required=true /></label> }.into_any())
+    };
+    let email_field = if is_signin {
+        None
+    } else {
+        Some(view! { <label class="field"><span>"Email"</span><input id="email" name="email" type="email" autocomplete="email" required=true /></label> }.into_any())
+    };
 
     // Inline JS: POST to the auth API, store the session, redirect.
     let api_base = auth_api_base();
@@ -136,9 +147,9 @@ fn AuthPage(page: Page) -> impl IntoView {
                         <p class="auth-sub">"Composed identity — no rewritten auth, no duplicated credentials."</p>
                         <p id="auth-error" class="auth-error" style="display:none"></p>
                         <form id="auth-form" novalidate>
-                            {if !is_signin { (r##"<label class="field"><span>Name</span><input id="name" name="name" type="text" autocomplete="name" required /></label>"##).into_any() } else { String::new().into_any() }}
+                            {name_field}
                             <label class="field"><span>"Username or email"</span><input id="username" name="username" type="text" autocomplete="username" required=true /></label>
-                            {if !is_signin { (r##"<label class="field"><span>Email</span><input id="email" name="email" type="email" autocomplete="email" required /></label>"##).into_any() } else { String::new().into_any() }}
+                            {email_field}
                             <label class="field"><span>"Password"</span><input id="password" name="password" type="password" autocomplete={if is_signin { "current-password" } else { "new-password" }} required=true /></label>
                             <button id="auth-submit" class="btn-primary" type="submit">{submit_label}</button>
                         </form>
