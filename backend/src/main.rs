@@ -53,13 +53,21 @@ fn page_title(page: Page) -> String {
 /// gateway's /auth-api prefix; override with AUTH_API_BASE when auth is not
 /// routed behind the gateway.
 fn auth_api_base() -> String {
-    std::env::var("AUTH_API_BASE").unwrap_or_else(|_| "/auth-api".to_string())
+    std::env::var("AUTH_API_BASE")
+        .ok()
+        .map(|v| v.trim().to_string())
+        .filter(|v| !v.is_empty())
+        .unwrap_or_else(|| "/auth-api".to_string())
 }
 
 /// Where a successful sign-in/up should land. Defaults to the estate home;
 /// estates override with AUTH_REDIRECT_URL.
 fn auth_redirect() -> String {
-    std::env::var("AUTH_REDIRECT_URL").unwrap_or_else(|_| "/".to_string())
+    std::env::var("AUTH_REDIRECT_URL")
+        .ok()
+        .map(|v| v.trim().to_string())
+        .filter(|v| !v.is_empty())
+        .unwrap_or_else(|| "/".to_string())
 }
 
 #[component]
@@ -152,7 +160,7 @@ fn AuthPage(page: Page) -> impl IntoView {
                             <label class="field"><span>"Password"</span><input id="password" name="password" type="password" autocomplete={if is_signin { "current-password" } else { "new-password" }} required=true /></label>
                             <button id="auth-submit" class="btn-primary" type="submit">{submit_label}</button>
                         </form>
-                        <p class="auth-home"><a href="/">"&#x2190; Back to homepage"</a></p>
+                        <p class="auth-home"><a href="/">"← Back to homepage"</a></p>
                         {switch_view}
                     </div>
                 </main>
