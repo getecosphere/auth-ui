@@ -32,7 +32,6 @@ a { color: var(--auth-brand); text-decoration: none; }
 a:hover { color: var(--auth-brand-hover); }
 .auth-shell { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
 .auth-card { width: min(440px, 100%); padding: 40px 36px; border: 1px solid var(--auth-border); border-radius: 14px; background: var(--auth-surface); box-shadow: 0 14px 34px rgba(23,20,29,.06); }
-.eyebrow { margin: 0 0 10px; color: var(--auth-brand); font: 500 12px/1.4 var(--auth-font-mono); letter-spacing: .1em; }
 .auth-card h1 { margin: 0 0 8px; font-size: 32px; letter-spacing: -.04em; line-height: 1.1; }
 .auth-sub { margin: 0 0 24px; color: var(--auth-muted); font-size: 15px; }
 .field { display: block; margin: 0 0 16px; }
@@ -44,3 +43,4 @@ a:hover { color: var(--auth-brand-hover); }
 .btn-primary:disabled { opacity: .6; cursor: wait; }
 .auth-error { padding: 10px 12px; border-radius: var(--auth-radius-sm); background: #fdecea; color: var(--auth-error); font-size: 14px; }
 .auth-switch { margin: 20px 0 0; color: var(--auth-muted); text-align: center; font-size: 14px; }
+.auth-home { margin: 16px 0 0; text-align: center; font-size: 14px; }

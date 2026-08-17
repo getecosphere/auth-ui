@@ -137,12 +137,11 @@ fn AuthPage(page: Page) -> impl IntoView {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true" />
                 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-                <link rel="stylesheet" href="/static/auth-ui.css" />
+                <link rel="stylesheet" href="/static/auth-ui.css?v=2" />
             </head>
             <body>
                 <main class="auth-shell">
                     <div class="auth-card">
-                        <p class="eyebrow">"auth · LXS"</p>
                         <h1>{title}</h1>
                         <p class="auth-sub">"Composed identity — no rewritten auth, no duplicated credentials."</p>
                         <p id="auth-error" class="auth-error" style="display:none"></p>
@@ -153,6 +152,7 @@ fn AuthPage(page: Page) -> impl IntoView {
                             <label class="field"><span>"Password"</span><input id="password" name="password" type="password" autocomplete={if is_signin { "current-password" } else { "new-password" }} required=true /></label>
                             <button id="auth-submit" class="btn-primary" type="submit">{submit_label}</button>
                         </form>
+                        <p class="auth-home"><a href="/">"&#x2190; Back to homepage"</a></p>
                         {switch_view}
                     </div>
                 </main>

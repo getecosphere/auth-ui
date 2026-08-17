@@ -3,8 +3,6 @@ name = "auth-ui-service"
 version = "0.1.0"
 edition = "2021"
 
-# Standalone package.
-[workspace]
 
 [dependencies]
 axum = "0.7"
