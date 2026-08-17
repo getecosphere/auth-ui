@@ -122,6 +122,10 @@ fn AuthPage(page: Page) -> impl IntoView {
               var data = await res.json().catch(function () {{ return {{}}; }});
               if (!res.ok || !data.token) throw new Error(data.message || data.error || "Request failed");
               localStorage.setItem("eco_session", JSON.stringify(data));
+              // Session cookie so gateway-protected page loads (routes declared
+              // with `cookie: eco_token`) authenticate without a Bearer header.
+              // JWT chars are cookie-safe; SameSite=Lax keeps it first-party.
+              document.cookie = "eco_token=" + data.token + "; Path=/; SameSite=Lax; Max-Age=" + (data.expiresIn || 2592000);
               window.location.href = "{redirect}";
             }} catch (ex) {{
               err.textContent = ex.message || "Sign in failed.";
