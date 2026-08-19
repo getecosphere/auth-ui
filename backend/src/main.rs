@@ -176,6 +176,7 @@ fn AuthPage(page: Page) -> impl IntoView {
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::fmt().json().init();
     let port: u16 = std::env::var("PORT")
         .ok()
         .and_then(|p| p.parse().ok())
@@ -188,6 +189,6 @@ async fn main() {
     let listener = TcpListener::bind(format!("0.0.0.0:{port}"))
         .await
         .expect("auth-ui could not bind its port");
-    println!("auth-ui listening on http://0.0.0.0:{port}");
+    tracing::info!("auth-ui listening on http://0.0.0.0:{port}");
     axum::serve(listener, app).await.expect("auth-ui stopped unexpectedly");
 }

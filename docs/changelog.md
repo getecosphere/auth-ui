@@ -1,5 +1,8 @@
 # auth-ui changelog
 
+## 1.0.0 (2026-08-19)
+- Logging contract: service logs now emitted as newline-delimited JSON (NDJSON) to stdout per the platform LXS logging contract (`ts`/`level`/`msg` + optional `service`,`request_id`,`status`,`latency_ms`,`user_id`,`error`). Breaking change — log output format changed.
+
 ## 0.4.0 — session cookie for gateway page loads (2026-08-17)
 
 - After a successful signin/signup, auth-ui now also writes an `eco_token`
