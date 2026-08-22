@@ -1,10 +1,10 @@
 name: auth-ui
 domain: auth
-version: 0.4.0
+version: 3.0.0
 publisher: stuff8
 status: unverified
 license: mit
-summary: "White-label signin/signup pages for the auth domain (Leptos SSR)"
+summary: "White-label signin, signup, and password recovery pages for the auth domain (Leptos SSR)"
 
 targets:
   - linux/amd64
@@ -13,7 +13,7 @@ artifacts: {}
 
 contract:
   version: 1
-  api: "auth-ui pages: GET /signin, GET /signup"
+  api: "auth-ui pages: GET /signin, GET /signup, GET /forgot-password, GET /reset-password"
   env:
     required:
       - SERVER_PORT

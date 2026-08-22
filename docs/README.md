@@ -16,7 +16,8 @@ services:
     lxs: auth-ui@0.1.0
 ```
 
-The estate gateway routes `/auth-api/*` → auth-backend and `/signin`, `/signup`
+The estate gateway routes `/auth-api/*` → auth-backend and `/signin`, `/signup`,
+`/forgot-password`, `/reset-password`
 → auth-ui. The auth-ui page posts to `AUTH_API_BASE` (default `/auth-api`, the
 gateway prefix) and redirects to `AUTH_REDIRECT_URL` (default `/`) after
 sign-in/up.
@@ -48,3 +49,7 @@ auth-backend API directly.
 | `SERVER_PORT` | `8501` | listen port |
 | `AUTH_API_BASE` | `/auth-api` | where the browser reaches auth (gateway prefix) |
 | `AUTH_REDIRECT_URL` | `/` | landing page after successful auth |
+
+Password recovery is part of the same composed surface. `/forgot-password`
+always shows a generic accepted result; `/reset-password?token=…` accepts the
+single-use link issued by Auth and sends the user back to sign in.

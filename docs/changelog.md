@@ -1,5 +1,11 @@
 # auth-ui changelog
 
+## 3.0.0 (2026-08-22)
+- Added white-label `/forgot-password` and `/reset-password` SSR pages for the
+  Auth password-recovery contract.
+- Sign-in now links directly to password recovery. Copy remains white-label
+  and includes the required back-to-homepage link.
+
 ## 1.0.0 (2026-08-19)
 - Logging contract: service logs now emitted as newline-delimited JSON (NDJSON) to stdout per the platform LXS logging contract (`ts`/`level`/`msg` + optional `service`,`request_id`,`status`,`latency_ms`,`user_id`,`error`). Breaking change — log output format changed.
 

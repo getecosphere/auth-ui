@@ -44,3 +44,5 @@ a:hover { color: var(--auth-brand-hover); }
 .auth-error { padding: 10px 12px; border-radius: var(--auth-radius-sm); background: #fdecea; color: var(--auth-error); font-size: 14px; }
 .auth-switch { margin: 20px 0 0; color: var(--auth-muted); text-align: center; font-size: 14px; }
 .auth-home { margin: 16px 0 0; text-align: center; font-size: 14px; }
+.auth-links { display: flex; justify-content: center; gap: 9px; margin: 20px 0 0; color: var(--auth-muted); font-size: 14px; }
+.auth-note { padding: 10px 12px; border-radius: var(--auth-radius-sm); background: var(--auth-brand-soft); color: var(--auth-ink); font-size: 14px; }
