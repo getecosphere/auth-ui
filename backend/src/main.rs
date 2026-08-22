@@ -163,7 +163,7 @@ fn AuthPage(page: Page) -> impl IntoView {
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true" />
                 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
-                <link rel="stylesheet" href="/static/auth-ui.css?v=2" />
+                <link rel="stylesheet" href="/static/auth-ui.css?v=3" />
             </head>
             <body>
                 <main class="auth-shell">
