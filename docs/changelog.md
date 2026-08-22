@@ -1,5 +1,11 @@
 # auth-ui changelog
 
+## 3.1.0 (2026-08-23)
+- Added the white-label `/verify-email?token=…` SSR page used by Auth's
+  secure-by-default verification flow.
+- Added a Darwin/arm64 target and `compose:` recipe so local `eco up dev`
+  has the same Auth UI routes as production.
+
 ## 3.0.0 (2026-08-22)
 - Added white-label `/forgot-password` and `/reset-password` SSR pages for the
   Auth password-recovery contract.

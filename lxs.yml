@@ -1,6 +1,6 @@
 name: auth-ui
 domain: auth
-version: 3.0.0
+version: 3.1.0
 publisher: stuff8
 status: unverified
 license: mit
@@ -8,6 +8,7 @@ summary: "White-label signin, signup, and password recovery pages for the auth d
 
 targets:
   - linux/amd64
+  - darwin/arm64
 
 artifacts: {}
 
@@ -42,3 +43,16 @@ provenance:
   target: x86_64-unknown-linux-musl
 
 release: []
+
+compose:
+  service:
+    name: auth-ui
+    port: 4201
+    access:
+      routes:
+        - { path: /signin, level: public }
+        - { path: /signup, level: public }
+        - { path: /forgot-password, level: public }
+        - { path: /reset-password, level: public }
+        - { path: /verify-email, level: public }
+        - { path: /static/auth-ui.css, level: public }

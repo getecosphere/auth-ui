@@ -113,11 +113,12 @@ fn AuthPage(page: Page) -> impl IntoView {
         r##"(function () {{
           var form = document.getElementById("auth-form");
           var err = document.getElementById("auth-error");
+          var note = document.getElementById("auth-note");
           if (!form) return;
           var isSignin = {signin};
           form.addEventListener("submit", async function (e) {{
             e.preventDefault();
-            err.style.display = "none";
+            err.style.display = "none"; note.style.display = "none";
             var body = {{ username: document.getElementById("username").value.trim(), password: document.getElementById("password").value }};
             if (!isSignin) {{
               body = {{
@@ -134,7 +135,16 @@ fn AuthPage(page: Page) -> impl IntoView {
                 method: "POST", headers: {{ "Content-Type": "application/json" }}, body: JSON.stringify(body)
               }});
               var data = await res.json().catch(function () {{ return {{}}; }});
-              if (!res.ok || !data.token) throw new Error(data.message || data.error || "Request failed");
+              if (!res.ok) throw new Error(data.message || data.error || "Request failed");
+              if (!data.token) {{
+                if (!isSignin && data.user && data.user.emailVerified === false) {{
+                  note.textContent = "Check your inbox to verify your email before signing in.";
+                  note.style.display = "block";
+                  form.reset();
+                  return;
+                }}
+                throw new Error(data.message || "Verification is required before sign in.");
+              }}
               localStorage.setItem("eco_session", JSON.stringify(data));
               // Session cookie so gateway-protected page loads (routes declared
               // with `cookie: eco_token`) authenticate without a Bearer header.
@@ -170,6 +180,7 @@ fn AuthPage(page: Page) -> impl IntoView {
                     <div class="auth-card">
                         <h1>{title}</h1>
                         <p class="auth-sub">"Your next intentional step starts here."</p>
+                        <p id="auth-note" class="auth-note" style="display:none"></p>
                         <p id="auth-error" class="auth-error" style="display:none"></p>
                         <form id="auth-form" novalidate>
                             {name_field}
@@ -247,6 +258,28 @@ fn ResetPasswordPage() -> impl IntoView {
     }
 }
 
+#[component]
+fn VerifyEmailPage() -> impl IntoView {
+    let api = auth_api_base();
+    let js = format!(
+        r##"(function () {{
+          var note = document.getElementById("verify-note");
+          var err = document.getElementById("verify-error");
+          var token = new URLSearchParams(window.location.search).get("token") || "";
+          if (!token) {{ err.textContent = "This verification link is incomplete."; err.style.display = "block"; return; }}
+          fetch("{api}/auth/verify-email?token=" + encodeURIComponent(token))
+            .then(async function (res) {{ var data = await res.json().catch(function () {{ return {{}}; }}); if (!res.ok) throw new Error(data.message || data.error || "Verification failed"); return data; }})
+            .then(function () {{ note.textContent = "Email verified. You can now sign in."; note.style.display = "block"; }})
+            .catch(function (ex) {{ err.textContent = ex.message || "We could not verify this email."; err.style.display = "block"; }});
+        }})();"##,
+        api = api,
+    );
+    view! {
+        <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>"Verify email"</title><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true"/><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link rel="stylesheet" href="/static/auth-ui.css?v=4"/></head>
+        <body><main class="auth-shell"><div class="auth-card"><h1>"Verify your email"</h1><p class="auth-sub">"We are confirming your account now."</p><p id="verify-note" class="auth-note" style="display:none"></p><p id="verify-error" class="auth-error" style="display:none"></p><p class="auth-home"><a href="/signin">"← Back to sign in"</a></p></div></main><script>{js}</script></body></html>
+    }
+}
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt().json().init();
@@ -279,6 +312,10 @@ async fn main() {
         .route(
             "/reset-password",
             get(render_app_to_stream(|| view! { <ResetPasswordPage /> })),
+        )
+        .route(
+            "/verify-email",
+            get(render_app_to_stream(|| view! { <VerifyEmailPage /> })),
         )
         .route("/static/auth-ui.css", get(serve_css));
     let listener = TcpListener::bind(format!("0.0.0.0:{port}"))

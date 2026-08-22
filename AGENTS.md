@@ -6,8 +6,9 @@ does not own accounts, JWTs, or roles. Add the published binary with
 
 ## Required gateway routes
 
-Compose Auth first, then declare all four public UI pages and the browser API
-alias. The public alias is required because pages post to `/auth-api` by
+Compose Auth first, then add Auth UI. `eco lxs add auth-ui@<version>` reads its
+`compose:` preset and declares every public page below plus main-estate
+membership. The public alias is required because pages post to `/auth-api` by
 default:
 
 ```yaml
@@ -19,10 +20,11 @@ auth-ui:
       - { path: /signup, level: public }
       - { path: /forgot-password, level: public }
       - { path: /reset-password, level: public }
+      - { path: /verify-email, level: public }
       - { path: /static/auth-ui.css, level: public }
 ```
 
-Also declare the matching `/auth-api/auth/login`, register, forgot-password,
+Also declare the matching `/auth-api/auth/login`, register, verify-email, forgot-password,
 and reset-password rewrite routes on `auth-backend` as documented in
 `../auth/AGENTS.md`. The generic `/auth-api/*` rewrite stays `auth`.
 
